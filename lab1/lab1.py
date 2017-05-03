@@ -4,6 +4,7 @@ from scipy import ndimage as ndi
 from skimage import io, color, feature, img_as_uint
 from skimage.measure import label, regionprops
 import os
+import itertools
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 
@@ -19,6 +20,8 @@ def find_row(dict, name, th):
         input.append(v)
 
     res = []
+    count = 0
+
     for i in range(0, len(input) - 1):
 
         # if two points coord difference is less than the threshold
@@ -33,6 +36,7 @@ def find_row(dict, name, th):
                         for k in dict.keys():
                             if dict[k] == el:
                                 print("[" + str(k) + "] ", el)
+                    count+=1
         else:
             if len(res) > 1:
                 print("Следующие точки по оси " + str(name) + " лежат примерно на одной прямой:")
@@ -40,12 +44,14 @@ def find_row(dict, name, th):
                     for k in dict.keys():
                         if dict[k] == el:
                             print("[" + str(k) + "] ", el)
+                count += 1
             res = []
-
+    return count
 
 if __name__ == '__main__':
     # input image as array of bytes
-    input_image = io.imread(os.path.join(INPUT_DIR, 'phone.jpg'))
+    input_image = io.imread(os.path.join(INPUT_DIR, 'test.jpg'))
+    # input_image = io.imread(os.path.join(INPUT_DIR, 'phone.jpg'))
 
     # convert image from rgb to gray
     image_gray = color.rgb2gray(input_image)
@@ -54,7 +60,8 @@ if __name__ == '__main__':
     io.imsave(os.path.join(OUTPUT_DIR, 'rgb2gray.jpg'), image_gray)
 
     # find edges using Canny algorithm
-    edges_canny = feature.canny(image_gray, sigma=2.9)
+    # edges_canny = feature.canny(image_gray, sigma=2.9)  # for phone.jpg
+    edges_canny = feature.canny(image_gray, sigma=5.2)  # for phone.jpg
 
     # filled edges using mathematical morphology
     edges2 = ndi.binary_fill_holes(edges_canny)
@@ -76,6 +83,8 @@ if __name__ == '__main__':
     fig, ax = plt.subplots(figsize=(10, 6))
     ax.imshow(edges_canny, cmap=plt.cm.gray)
     ax.set_title('Detected Objects')
+
+    control_points = []
 
     coord_y = {}
     coord_x = {}
@@ -101,13 +110,19 @@ if __name__ == '__main__':
 
             ax.plot(x0, y0, 'ws', markersize=6)
             ax.text(x0, y0, str(i), fontsize=12, color="red")
+            control_points.append((x0, y0))
 
             print("[%s] x0: %s y0: %s" % (i, x0, y0,))
             i += 1
 
     # interface analysis
-    find_row(coord_y, "y", 5)
-    find_row(coord_x, "x", 5)
+    x_koef = find_row(coord_x, "x", 5)
+    y_koef = find_row(coord_y, "y", 5)
+
+    if x_koef + y_koef > 7:
+        print('Хороший интерфейс. Соответствует принципам Гештальта')
+    else:
+        print('Плохой интерфейс. Не соответствует принципам Гештальта')
 
     # set axis off
     ax.set_axis_off()

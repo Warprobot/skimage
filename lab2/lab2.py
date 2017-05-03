@@ -135,9 +135,35 @@ if __name__ == '__main__':
     find_food(input_image_rgb, 37.98, 44.05, 122.77, 124.225, 155.825, 157.665, 'Juice 2', 40000, 200000)
     find_food(input_image_rgb, 21.742, 29.73, 125.188, 125.04, 136.341, 136.78, 'Juice 2', 40000, 200000)
     find_food(input_image_rgb, 84.435, 103.645, 93.495, 89.845, 162.635, 161.15, 'Juice 3', 40000, 200000)
-    find_food(input_image_rgb, 34.164, 59.867, 119.017, 117.567, 143.565, 140.479, 'Apple juice', 50000, 200000)
+    find_food(input_image_rgb, 34.164, 59.867, 119.017, 117.567, 143.565, 140.479, 'Apple juice', 50000, 100000)
+    find_food(input_image_rgb, 102.081, 117.861, 109.073, 107.899, 143.513, 144.533, 'Bread', 40000, 150000)
 
     # set axis off
     ax.set_axis_off()
     plt.tight_layout()
     plt.show()
+
+    """
+    Uncomment if u want to process multiple image
+    """
+    # i = 1
+    # for img in io.imread_collection(os.path.join(INPUT_DIR, '*.JPG')):
+    #     fig, ax = plt.subplots(figsize=(10, 6))
+    #     ax.imshow(img)
+    #     ax.set_axis_off()
+    #     plt.tight_layout()
+    #
+    #     find_food(input_image_rgb, 81.71, 140.675, 100.03, 88.315, 174.03, 178.0, 'Carrot', 290000, 400000)
+    #     find_food(input_image_rgb, 72.8, 116.19, 112.5850, 114.805, 142.945, 136.36, 'Light bread', 180000, 250000)
+    #     find_food(input_image_rgb, 102.935, 138.53, 100.155, 99.44, 142.88, 138.845, 'Soup', 200000, 800000)
+    #     find_food(input_image_rgb, 44.122, 73.678, 116.752, 108.125, 161.364, 161.099, 'Tomato Juice', 96000, 120000)
+    #     find_food(input_image_rgb, 56, 85, 110, 107, 152, 145, 'Cutlet', 50000, 100000)
+    #     find_food(input_image_rgb, 140.938, 173.227, 94.586, 104.698, 145.856, 140.485, 'Puree', 180000, 270000)
+    #     find_food(input_image_rgb, 37.98, 44.05, 122.77, 124.225, 155.825, 157.665, 'Juice 2', 40000, 200000)
+    #     find_food(input_image_rgb, 21.742, 29.73, 125.188, 125.04, 136.341, 136.78, 'Juice 2', 40000, 200000)
+    #     find_food(input_image_rgb, 84.435, 103.645, 93.495, 89.845, 162.635, 161.15, 'Juice 3', 40000, 200000)
+    #     find_food(input_image_rgb, 34.164, 59.867, 119.017, 117.567, 143.565, 140.479, 'Apple juice', 50000, 100000)
+    #     find_food(input_image_rgb, 102.081, 117.861, 109.073, 107.899, 143.513, 144.533, 'Bread', 40000, 150000)
+    #
+    #     plt.savefig(os.path.join(OUTPUT_DIR, str(i) + '-result.png'))
+    #     i += 1
